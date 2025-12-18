@@ -90,7 +90,7 @@ ROBOT_BASE_DICT = {
     "pnd_adam_lite": "pelvis",
     "tienkung": "Base_link",
     "pal_talos": "base_link",
-    "nao": "torso",
+    "nao": "Torso",
 }
 
 VIEWER_CAM_DISTANCE_DICT = {

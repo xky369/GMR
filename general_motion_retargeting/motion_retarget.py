@@ -7,6 +7,10 @@ from scipy.spatial.transform import Rotation as R
 from .params import ROBOT_XML_DICT, IK_CONFIG_DICT
 from rich import print
 
+q: np.ndarray = np.zeros(33)
+q[30] = 0.04
+q[24] = -0.04
+
 class GeneralMotionRetargeting:
     """General Motion Retargeting (GMR).
     """
@@ -20,6 +24,8 @@ class GeneralMotionRetargeting:
         verbose: bool=True,
         use_velocity_limit: bool=False,
     ) -> None:
+        
+        self.tgt_robot = tgt_robot
 
         # load the robot model
         self.xml_file = str(ROBOT_XML_DICT[tgt_robot])
@@ -105,7 +111,11 @@ class GeneralMotionRetargeting:
         self.ground_offset = 0.0
 
     def setup_retarget_configuration(self):
-        self.configuration = mink.Configuration(self.model)
+
+        if self.tgt_robot == "nao":
+            self.configuration = mink.Configuration(self.model, q)
+        else:
+            self.configuration = mink.Configuration(self.model)
     
         self.tasks1 = []
         self.tasks2 = []
