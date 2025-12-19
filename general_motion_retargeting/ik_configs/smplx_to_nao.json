@@ -7,7 +7,7 @@
     "use_ik_match_table2": true,
     "human_scale_table": {
         "head": 0.3,
-        "pelvis": 0.3,
+        "pelvis": 0.36,
         "left_hip": 0.3,
         "right_hip": 0.3,
         "left_knee": 0.3,
