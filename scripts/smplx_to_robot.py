@@ -20,12 +20,12 @@ if __name__ == "__main__":
         "--smplx_file",
         help="SMPLX motion file to load.",
         type=str,
-        # required=True,
-        default="/home/yanjieze/projects/g1_wbc/GMR/motion_data/ACCAD/Male1General_c3d/General_A1_-_Stand_stageii.npz",
-        # default="/home/yanjieze/projects/g1_wbc/GMR/motion_data/ACCAD/Male2MartialArtsKicks_c3d/G8_-__roundhouse_left_stageii.npz"
-        # default="/home/yanjieze/projects/g1_wbc/TWIST-dev/motion_data/AMASS/KIT_572_dance_chacha11_stageii.npz"
-        # default="/home/yanjieze/projects/g1_wbc/GMR/motion_data/ACCAD/Male2MartialArtsPunches_c3d/E1_-__Jab_left_stageii.npz",
-        # default="/home/yanjieze/projects/g1_wbc/GMR/motion_data/ACCAD/Male1Running_c3d/Run_C24_-_quick_side_step_left_stageii.npz",
+        required=False,
+        # default="/home/rail/rail-unitree/motion_datasets/ACCAD/Male1General_c3d/General_A1_-_Stand_stageii.npz",
+        # default="/home/rail/rail-unitree/motion_datasets/ACCAD/Male2MartialArtsKicks_c3d/G8_-__roundhouse_left_stageii.npz"
+        default="/home/rail/rail-unitree/motion_datasets/ACCAD/Male2MartialArtsPunches_c3d/E1_-__Jab_left_stageii.npz",
+        # default="/home/rail/rail-unitree/motion_datasets/ACCAD/Male2General_c3d/A2-_Sway_stageii.npz",
+        # default="/home/rail/rail-unitree/motion_datasets/ACCAD/Male2General_c3d/A6-_Box_lift_stageii.npz"
     )
     
     parser.add_argument(
@@ -33,13 +33,13 @@ if __name__ == "__main__":
         choices=["unitree_g1", "unitree_g1_with_hands", "unitree_h1", "unitree_h1_2",
                  "booster_t1", "booster_t1_29dof","stanford_toddy", "fourier_n1", 
                 "engineai_pm01", "kuavo_s45", "hightorque_hi", "galaxea_r1pro", "berkeley_humanoid_lite", "booster_k1",
-                "pnd_adam_lite", "openloong", "tienkung"],
-        default="unitree_g1",
+                "pnd_adam_lite", "openloong", "tienkung", "nao"],
+        default="nao",
     )
     
     parser.add_argument(
         "--save_path",
-        default=None,
+        default="/home/rail/rail-unitree/GMR/motion/nao_motion/box_lift.pkl",
         help="Path to save the robot motion.",
     )
     
@@ -74,11 +74,12 @@ if __name__ == "__main__":
     smplx_data, body_model, smplx_output, actual_human_height = load_smplx_file(
         args.smplx_file, SMPLX_FOLDER
     )
+    print(f'smplx_data: {smplx_data} \n body_model: {body_model} \n smplx_output: {smplx_output} \n actual_human_height: {actual_human_height}')
     
     # align fps
     tgt_fps = 30
     smplx_data_frames, aligned_fps = get_smplx_data_offline_fast(smplx_data, body_model, smplx_output, tgt_fps=tgt_fps)
-    
+    print(f"smplx_data_frames: {len(smplx_data_frames)}")
    
     # Initialize the retargeting system
     retarget = GMR(
